@@ -9,38 +9,29 @@ INIT_MONEY = 100.0
 
 class TestCoreSuites(object):
 ##########################################################################################
-#
 # 假設這位客戶, 名字是 Test User, 帳號為100-1100, 一開始帳戶會先存100元, 要測試下面項目:
-    def __init__(self):
-        self.test_user = Customer('Test User', '100-1100')
-        self.test_user.deposit(INIT_MONEY)
+    test_user = Customer('Test User', '100-1100')
+    test_user.deposit(INIT_MONEY)
 
 # 1. 之後存款 1000 元, 確認帳戶總金額為 1100 元
     def test_1A(self) :
         self.test_user.deposit(1000)
-        assert (self.test_user.balance == 1100)
+        assert(self.test_user.balance == 1100)
 
 # 2. 下一步提款 500 元, 確認帳戶總金額為 600 元
     def test_1B(self):
         self.test_user.withdraw(500)
         assert (self.test_user.balance == 600)
 
-
 # 3. 假設銀行年利率是10%, 經過一年之後確認帳戶餘額為660元
-    def test_1C(self,test_user):
-        CustomerDataProcess().add_interest(test_user, 0.1)
-        assert (int(test_user.balance) == 660)
-
-    # CustomerDataProcess().add_interest(test_user, 0.1)
-    # test_1C(test_user)
-
+    def test_1C(self):
+        CustomerDataProcess().add_interest(self.test_user, 0.1)
+        assert (int(self.test_user.balance) == 660)
 
 # 4.之後提款 700 元, pytest 預期會接到 RuntimeError
     def test_1D(self):
         with pytest.raises(SystemExit):
-            test.withdraw(700)
-
-# test_whatever(test_user)
+            self.test_user.withdraw(700)
 
 # 第二題
 #1.
